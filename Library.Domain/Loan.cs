@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Library.Domain
 {
-    class Loan
+    public class Loan
     {
         public int Id { get; set; }
         public string LoanTime { get; set; }

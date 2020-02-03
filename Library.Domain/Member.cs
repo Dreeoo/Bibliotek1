@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Library.Domain
+﻿namespace Library.Domain
 {
-    class Member
+    public class Member
     {
+        public int Id { get; set; }
+        public int SSN { get; set; }
+        public string Name { get; set; }
+        public Loan Loan { get; set; }
     }
 }
