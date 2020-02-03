@@ -32,7 +32,8 @@ namespace Library.Infrastructure.Services
 
         public void UpdateBookDetails(BookDetails book)
         {
-            throw new NotImplementedException();
+            context.Update(book);
+            context.SaveChanges();
         }
 
         public void UpdateBookDetails(int id, BookDetails book)
