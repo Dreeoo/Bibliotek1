@@ -92,6 +92,7 @@ namespace Library.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //GET: Delete
         public IActionResult Delete(int id)
         {
             var bookToDelete = bookservice.GetBookById(id);
@@ -99,8 +100,35 @@ namespace Library.MVC.Controllers
             vm.ID = id;
             vm.ISBN = bookToDelete.ISBN;
             vm.Title = bookToDelete.Title;
-            vm.Author = bookToDelete.AuthorId;
+            vm.AuthorID = bookToDelete.AuthorID;
             vm.Description = bookToDelete.Description;
+            return View(vm);
+        }
+
+        //POST: Delete
+        [HttpPost]
+        public IActionResult Delete(BookDeleteVm vm)
+        {
+            var deletedBook = new BookDetails();
+            deletedBook.ID = vm.ID;
+            deletedBook.Title = vm.Title;
+            deletedBook.ISBN = vm.ISBN;
+            deletedBook.Description = vm.Description;
+            deletedBook.AuthorID = vm.AuthorID;
+            bookservice.DeleteBook(deletedBook);
+            return RedirectToAction(nameof(Index));
+        }
+
+        //GET: Details
+        public IActionResult Details(int id)
+        {
+            var book = bookservice.GetBookById(id);
+            var vm = new BookDetailsVm();
+            vm.ID = id;
+            vm.Title = book.Title;
+            vm.ISBN = book.ISBN;
+            vm.Description = book.Description;
+            vm.AuthorID = book.AuthorID;
             return View(vm);
         }
 

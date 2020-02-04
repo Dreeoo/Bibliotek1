@@ -12,7 +12,7 @@ namespace Library.MVC.Models
         public string ISBN { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-        public Domain.Author AuthorID { get; set; }
+        public int AuthorID { get; set; }
         public string Description { get; set; }
     }
 }
