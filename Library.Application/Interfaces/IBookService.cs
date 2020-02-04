@@ -25,6 +25,9 @@ namespace Library.Application.Interfaces
         /// <param name="id">Id of book to update</param>
         /// <param name="book">New values of book (Id is ignored)</param>
         void UpdateBookDetails(int id, BookDetails book);
+
+        void DeleteBook(BookDetails book)
+
         /// <summary>
         /// Gets all books from the database
         /// </summary>

@@ -41,6 +41,12 @@ namespace Library.Infrastructure.Services
             context.SaveChanges();
         }
 
+        public void DeleteBook(BookDetails book)
+        {
+            context.Remove(book);
+            context.SaveChanges();
+        }
+
         public void UpdateBookDetails(int id, BookDetails book)
         {
             throw new NotImplementedException();
