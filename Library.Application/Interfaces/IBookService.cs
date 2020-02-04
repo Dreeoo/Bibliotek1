@@ -30,5 +30,6 @@ namespace Library.Application.Interfaces
         /// </summary>
         /// <returns>list of books</returns>
         ICollection<BookDetails> GetAllBooks();
+        BookDetails GetBookById(int id);
     }
 }

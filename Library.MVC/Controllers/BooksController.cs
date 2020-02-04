@@ -81,6 +81,35 @@ namespace Library.MVC.Controllers
             return RedirectToAction("Error","Home","");
         }
 
+        //GET
+        public IActionResult Edit(int id)
+        {
+            var book = bookservice.GetBookById(id);
+            var vm = new BookEditVm();
+            vm.ID = id;
+            vm.Title = book.Title;
+            vm.ISBN = book.ISBN;
+            vm.Description = book.Description;
+            vm.AuthorID = book.AuthorID;
+
+            vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "Id", "Name", book.AuthorID);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(BookEditVm vm)
+        {
+            var editedBook = new BookDetails();
+            editedBook.ID = vm.ID;
+            editedBook.Title = vm.Title;
+            editedBook.ISBN = vm.ISBN;
+            editedBook.Description = vm.Description;
+            editedBook.AuthorID = vm.AuthorID;
+            bookservice.UpdateBookDetails(editedBook);
+            return RedirectToAction(nameof(Index));
+        }
+
         //// GET: Books/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
@@ -168,5 +197,6 @@ namespace Library.MVC.Controllers
         //{
         //    return _context.BookDetails.Any(e => e.ID == id);
         //}
+
     }
 }

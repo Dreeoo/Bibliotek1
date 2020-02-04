@@ -30,6 +30,11 @@ namespace Library.Infrastructure.Services
             return context.BookDetails.Include(x => x.Author).OrderBy(x => x.Title).ToList();
         }
 
+        public BookDetails GetBookById(int id)
+        {
+            return context.BookDetails.Find(id);
+        }
+
         public void UpdateBookDetails(BookDetails book)
         {
             context.Update(book);
