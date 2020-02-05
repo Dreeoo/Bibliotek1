@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Library.Application.Interfaces
 {
-    public interface ILoan
+    public interface ILoanService
     {
     }
 }

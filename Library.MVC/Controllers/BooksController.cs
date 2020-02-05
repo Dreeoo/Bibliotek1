@@ -13,12 +13,12 @@ namespace Library.MVC.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly IBookService bookservice;
+        private readonly IBookService bookService;
         private readonly IAuthorService authorService;
 
-        public BooksController(IBookService bookservice, IAuthorService authorService)
+        public BooksController(IBookService bookService, IAuthorService authorService)
         {
-            this.bookservice = bookservice;
+            this.bookService = bookService;
             this.authorService = authorService;
         }
 
@@ -26,7 +26,7 @@ namespace Library.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var vm = new BookIndexVm();
-            vm.Books = bookservice.GetAllBooks();
+            vm.Books = bookService.GetAllBooks();
             return View(vm);
         }
 
@@ -54,7 +54,7 @@ namespace Library.MVC.Controllers
                 newBook.ISBN = vm.ISBN;
                 newBook.Title = vm.Title;
 
-                bookservice.AddBook(newBook);
+                bookService.AddBook(newBook);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -65,7 +65,7 @@ namespace Library.MVC.Controllers
         //GET: Gets the chosen book to edit
         public IActionResult Edit(int id)
         {
-            var book = bookservice.GetBookById(id);
+            var book = bookService.GetBookById(id);
             var vm = new BookEditVm();
             vm.ID = id;
             vm.Title = book.Title;
@@ -88,14 +88,14 @@ namespace Library.MVC.Controllers
             editedBook.ISBN = vm.ISBN;
             editedBook.Description = vm.Description;
             editedBook.AuthorID = vm.AuthorID;
-            bookservice.UpdateBookDetails(editedBook);
+            bookService.UpdateBookDetails(editedBook);
             return RedirectToAction(nameof(Index));
         }
 
         //GET: Delete
         public IActionResult Delete(int id)
         {
-            var bookToDelete = bookservice.GetBookById(id);
+            var bookToDelete = bookService.GetBookById(id);
             var vm = new BookDeleteVm();
             vm.ID = id;
             vm.ISBN = bookToDelete.ISBN;
@@ -115,14 +115,14 @@ namespace Library.MVC.Controllers
             deletedBook.ISBN = vm.ISBN;
             deletedBook.Description = vm.Description;
             deletedBook.AuthorID = vm.AuthorID;
-            bookservice.DeleteBook(deletedBook);
+            bookService.DeleteBook(deletedBook);
             return RedirectToAction(nameof(Index));
         }
 
         //GET: Details
         public IActionResult Details(int id)
         {
-            var book = bookservice.GetBookById(id);
+            var book = bookService.GetBookById(id);
             var vm = new BookDetailsVm();
             vm.ID = id;
             vm.Title = book.Title;
