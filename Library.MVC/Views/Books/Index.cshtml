@@ -13,9 +13,9 @@
     <thead>
         <tr>
             <th>ISBN</th>
-            <th>Titel</th>
-            <th>Författare</th>
-            <th>Beskrivning</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Copies</th>
             <th></th>
         </tr>
     </thead>
@@ -33,7 +33,7 @@
                     @Html.DisplayFor(modelItem => item.Author.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.Copies)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

@@ -8,5 +8,7 @@ namespace Library.Application.Interfaces
     public interface IMemberService
     {
         ICollection<Member> GetAllMembers();
+        void AddMember(Member member);
     }
+
 }

@@ -22,5 +22,11 @@ namespace Library.Infrastructure.Services
         {
             return context.Members.Include(m => m.Loan).OrderBy(m => m.Name).ToList();
         }
+
+        public void AddMember(Member newMember)
+        {
+            context.Add(newMember);
+            context.SaveChanges();
+        }
     }
 }

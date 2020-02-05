@@ -39,9 +39,9 @@ namespace Library.Infrastructure.Persistence
                 new BookDetails { ID = 3, AuthorID = 2, Title = "Othello", ISBN = "1853260185", Description = "An intense drama of love, deception, jealousy and destruction." }
             );
             modelBuilder.Entity<Member>().HasData(
-                new Member { ID = 1, SSN = 897658, Name = "Jonas Gren" },
-                new Member { ID = 2, SSN = 897328, Name = "Elin Skog" },
-                new Member { ID = 3, SSN = 862393, Name = "Hampus Log" }
+                new Member { ID = 1, SSN = "897658", Name = "Jonas Gren" },
+                new Member { ID = 2, SSN = "897328", Name = "Elin Skog" },
+                new Member { ID = 3, SSN = "862393", Name = "Hampus Log" }
                 );
         }
 

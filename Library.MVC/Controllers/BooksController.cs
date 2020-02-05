@@ -34,7 +34,7 @@ namespace Library.MVC.Controllers
         public IActionResult Create()
         {
             var vm = new BookCreateVm();
-            vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "Id", "Name");
+            vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "ID", "Name");
             return View(vm);
         }
 
@@ -49,7 +49,7 @@ namespace Library.MVC.Controllers
             {
                 //Skapa ny bok
                 var newBook = new BookDetails();
-                newBook.AuthorID = vm.AuthorId;
+                newBook.AuthorID = vm.AuthorID;
                 newBook.Description = vm.Description;
                 newBook.ISBN = vm.ISBN;
                 newBook.Title = vm.Title;
@@ -73,7 +73,7 @@ namespace Library.MVC.Controllers
             vm.Description = book.Description;
             vm.AuthorID = book.AuthorID;
 
-            vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "Id", "Name", book.AuthorID);
+            vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "ID", "Name", book.AuthorID);
 
             return View(vm);
         }
