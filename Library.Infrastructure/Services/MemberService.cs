@@ -28,5 +28,20 @@ namespace Library.Infrastructure.Services
             context.Add(newMember);
             context.SaveChanges();
         }
+
+        public void UpdateMember(Member editedMember)
+        {
+            context.Update(editedMember);
+            context.SaveChanges();
+        }
+
+        public void UpdateMember(int id, Member editedMember)
+        {
+            throw new NotImplementedException();
+        }
+        public Member GetMemberById(int id)
+        {
+            return context.Members.Find(id);
+        }
     }
 }

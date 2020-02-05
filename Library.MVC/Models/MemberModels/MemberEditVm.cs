@@ -7,5 +7,8 @@ namespace Library.MVC.Models.MemberModels
 {
     public class MemberEditVm
     {
+        public int ID { get; set; }
+        public string SSN { get; set; }
+        public string Name { get; set; }
     }
 }

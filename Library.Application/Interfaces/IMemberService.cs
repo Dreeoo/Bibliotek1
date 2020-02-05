@@ -9,6 +9,10 @@ namespace Library.Application.Interfaces
     {
         ICollection<Member> GetAllMembers();
         void AddMember(Member member);
+        Member GetMemberById(int id);
+
+        void UpdateMember(Member editedMember);
+        void UpdateMember(int id, Member editedMember);
     }
 
 }

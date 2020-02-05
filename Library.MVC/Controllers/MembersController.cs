@@ -59,5 +59,29 @@ namespace Library.MVC.Controllers
 
             return RedirectToAction("Error", "Home", "");
         }
+
+        //GET: Edit member
+        public IActionResult Edit(int id)
+        {
+            var editedMember = memberService.GetMemberById(id);
+            var vm = new MemberEditVm();
+            vm.ID = id;
+            vm.SSN = editedMember.SSN;
+            vm.Name = editedMember.Name;
+            return View(vm);
+        }
+
+        //POST: Edit member
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(MemberEditVm vm)
+        {
+            var editedMember = new Member();
+            editedMember.ID = vm.ID;
+            editedMember.SSN = vm.SSN;
+            editedMember.Name = vm.Name;
+            memberService.UpdateMember(editedMember);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
