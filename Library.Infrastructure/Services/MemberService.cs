@@ -43,9 +43,9 @@ namespace Library.Infrastructure.Services
         {
             return context.Members.Find(id);
         }
-        public void DeleteMember(Member member)
+        public void DeleteMember(Member deletedMember)
         {
-            context.Remove(member);
+            context.Remove(deletedMember);
             context.SaveChanges();
         }
     }

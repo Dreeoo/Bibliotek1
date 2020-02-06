@@ -12,5 +12,9 @@ namespace Library.Application.Interfaces
         /// </summary>
         /// <returns>List of authors</returns>
         IList<Author> GetAllAuthors();
+        void AddAuthor(Author newAuthor);
+        void UpdateAuthor(Author editedAuthor);
+        void DeleteAuthor(Author deletedAuthor);
+        Author GetAuthorById(int id);
     }
 }
