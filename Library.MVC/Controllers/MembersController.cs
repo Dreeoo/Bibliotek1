@@ -83,5 +83,38 @@ namespace Library.MVC.Controllers
             memberService.UpdateMember(editedMember);
             return RedirectToAction(nameof(Index));
         }
+        // GET: Delete
+        public IActionResult Delete(int id)
+        {
+            var memberToDelete = memberService.GetMemberById(id);
+            var vm = new MemberDeleteVm();
+            vm.ID = id;
+            vm.SSN = memberToDelete.SSN;
+            vm.Name = memberToDelete.Name;
+            return View(vm);
+        }
+
+        //POST: Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(MemberDeleteVm vm)
+        {
+            var deletedMember = new Member();
+            deletedMember.ID = vm.ID;
+            deletedMember.SSN = vm.SSN;
+            deletedMember.Name = vm.Name;
+            memberService.DeleteMember(deletedMember);
+            return RedirectToAction(nameof(Index));
+        }
+        //GET: Details
+        public IActionResult Details(int id)
+        {
+            var member = memberService.GetMemberById(id);
+            var vm = new MemberDetailsVm();
+            vm.ID = id;
+            vm.SSN = member.SSN;
+            vm.Name = member.Name;
+            return View(vm);
+        }
     }
 }

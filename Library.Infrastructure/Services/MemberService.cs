@@ -43,5 +43,10 @@ namespace Library.Infrastructure.Services
         {
             return context.Members.Find(id);
         }
+        public void DeleteMember(Member member)
+        {
+            context.Remove(member);
+            context.SaveChanges();
+        }
     }
 }

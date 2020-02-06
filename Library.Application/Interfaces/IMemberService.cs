@@ -8,11 +8,11 @@ namespace Library.Application.Interfaces
     public interface IMemberService
     {
         ICollection<Member> GetAllMembers();
-        void AddMember(Member member);
         Member GetMemberById(int id);
-
+        void AddMember(Member member);
         void UpdateMember(Member editedMember);
         void UpdateMember(int id, Member editedMember);
+        void DeleteMember(Member member);
     }
 
 }

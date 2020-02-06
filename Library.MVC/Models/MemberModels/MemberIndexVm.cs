@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Library.Domain;
 
-namespace Library.MVC.Models
+namespace Library.MVC.Models.MemberModels
 {
     public class MemberIndexVm
     {
