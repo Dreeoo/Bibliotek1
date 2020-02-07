@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.Domain;
 using Library.MVC.Models;
 using Library.Application.Interfaces;
+using Library.MVC.Models.LoanModels;
 
 namespace Library.MVC.Controllers
 {
@@ -15,11 +16,15 @@ namespace Library.MVC.Controllers
     {
         private readonly IBookService bookService;
         private readonly IAuthorService authorService;
+        private readonly IMemberService memberService;
+        private readonly ILoanService loanService;
 
-        public BooksController(IBookService bookService, IAuthorService authorService)
+        public BooksController(IBookService bookService, IAuthorService authorService, IMemberService memberService, ILoanService loanService)
         {
             this.bookService = bookService;
             this.authorService = authorService;
+            this.memberService = memberService;
+            this.loanService = loanService;
         }
 
         //GET: Books
@@ -53,13 +58,17 @@ namespace Library.MVC.Controllers
                 newBook.Description = vm.Description;
                 newBook.ISBN = vm.ISBN;
                 newBook.Title = vm.Title;
+                for (int i = 0; i < vm.Copies; i++)
+                {
+                    newBook.Copies.Add(new BookCopy());
+                }
 
                 bookService.AddBook(newBook);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Error","Home","");
+            return RedirectToAction("Error", "Home", "");
         }
 
         //GET: Gets the chosen book to edit
@@ -132,5 +141,33 @@ namespace Library.MVC.Controllers
             return View(vm);
         }
 
+        //GET: Create Loan
+        public IActionResult CreateLoan()
+        {
+            var vm = new LoanCreateVm();
+            vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
+            return View(vm);
+        }
+        
+        //POST: Create Loan
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateLoan(LoanCreateVm vm)
+        {
+            if (ModelState.IsValid)
+            {
+                //Create new member
+                var newLoan = new Loan();
+                newLoan.BookCopyID = vm.BookCopyID;
+                newLoan.LoanTime = vm.LoanTime;
+                newLoan.ReturnTime = vm.ReturnTime;
+                newLoan.MemberID = vm.MemberID;
+                loanService.AddLoan(newLoan);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("Error", "Home", "");
+        }
     }
 }

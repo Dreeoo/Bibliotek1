@@ -62,14 +62,12 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("DetailsID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LoanID")
+                    b.Property<int>("LoanID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("DetailsID");
-
-                    b.HasIndex("LoanID");
 
                     b.ToTable("BookCopy");
                 });
@@ -133,27 +131,35 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BookCopyID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BookCopyID1")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Delayed")
                         .HasColumnType("bit");
 
                     b.Property<int>("Fine")
                         .HasColumnType("int");
 
-                    b.Property<string>("LoanTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LoanTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReturnTime")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("ReturnTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("BookCopyID1");
 
                     b.HasIndex("MemberID")
                         .IsUnique();
 
-                    b.ToTable("Loan");
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("Library.Domain.Member", b =>
@@ -199,10 +205,6 @@ namespace Library.Infrastructure.Migrations
                     b.HasOne("Library.Domain.BookDetails", "Details")
                         .WithMany("Copies")
                         .HasForeignKey("DetailsID");
-
-                    b.HasOne("Library.Domain.Loan", null)
-                        .WithMany("LoanedBooks")
-                        .HasForeignKey("LoanID");
                 });
 
             modelBuilder.Entity("Library.Domain.BookDetails", b =>
@@ -216,7 +218,11 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.Loan", b =>
                 {
-                    b.HasOne("Library.Domain.Member", null)
+                    b.HasOne("Library.Domain.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyID1");
+
+                    b.HasOne("Library.Domain.Member", "Member")
                         .WithOne("Loan")
                         .HasForeignKey("Library.Domain.Loan", "MemberID")
                         .OnDelete(DeleteBehavior.Cascade)

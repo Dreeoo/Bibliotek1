@@ -7,6 +7,9 @@ namespace Library.Application.Interfaces
 {
     public interface ILoanService
     {
-        ICollection<Loan> GetAllLoans();
+        ICollection<Loan> GetAllLoans(); 
+        void AddLoan(Loan newLoan);
+        void ReturnLoan(Loan returnLoan);
+        Loan GetLoanById(int id);
     }
 }

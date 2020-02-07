@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200130093201_initial")]
+    [Migration("20200207142432_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.Author", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,31 +32,31 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("nvarchar(55)")
                         .HasMaxLength(55);
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.ToTable("Authors");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            ID = 1,
                             Name = "William Shakespeare"
                         },
                         new
                         {
-                            Id = 2,
+                            ID = 2,
                             Name = "Villiam Skakspjut"
                         },
                         new
                         {
-                            Id = 3,
+                            ID = 3,
                             Name = "Robert C. Martin"
                         });
                 });
 
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -64,7 +64,7 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("DetailsID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("DetailsID");
 
@@ -123,10 +123,83 @@ namespace Library.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Library.Domain.Loan", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookCopyID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Delayed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Fine")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LoanTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReturnTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BookCopyID");
+
+                    b.HasIndex("MemberID")
+                        .IsUnique();
+
+                    b.ToTable("Loans");
+                });
+
+            modelBuilder.Entity("Library.Domain.Member", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SSN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Members");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Name = "Jonas Gren",
+                            SSN = "897658"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Name = "Elin Skog",
+                            SSN = "897328"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Name = "Hampus Log",
+                            SSN = "862393"
+                        });
+                });
+
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
-                        .WithMany("Copeis")
+                        .WithMany("Copies")
                         .HasForeignKey("DetailsID");
                 });
 
@@ -135,6 +208,21 @@ namespace Library.Infrastructure.Migrations
                     b.HasOne("Library.Domain.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Library.Domain.Loan", b =>
+                {
+                    b.HasOne("Library.Domain.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library.Domain.Member", "Member")
+                        .WithOne("Loan")
+                        .HasForeignKey("Library.Domain.Loan", "MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

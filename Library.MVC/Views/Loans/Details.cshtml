@@ -1,0 +1,60 @@
+﻿@model Library.MVC.Models.LoanModels.LoanDetailsVm;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+    <div>
+        <h4>Loan</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Member.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Member.Name)
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.BookCopy.Details.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.BookCopy.Details.Title)
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LoanTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LoanTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ReturnTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ReturnTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Delayed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Delayed)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Fine)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Fine)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</body>
+</html>

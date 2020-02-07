@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Library.Domain;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Library.Domain
+namespace Library.MVC.Models.LoanModels
 {
-    public class Loan
+    public class LoanDetailsVm
     {
         public int ID { get; set; }
         public DateTime LoanTime { get; set; }
         public DateTime ReturnTime { get; set; }
-        public bool Delayed { get; set; } = true;
-        public int Fine { get; set; } = 0;
-        public int BookCopyID { get; set; }
+        public bool Delayed { get; set; }
+        public int Fine { get; set; }
         public BookCopy BookCopy { get; set; }
-        public int MemberID { get; set; }
         public Member Member { get; set; }
     }
 }
