@@ -11,7 +11,6 @@ namespace Library.Domain
         public DateTime ReturnTime { get; set; }
         public bool Delayed { get; set; } = true;
         public int Fine { get; set; } = 0;
-        public int BookCopyID { get; set; }
         public BookCopy BookCopy { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }
