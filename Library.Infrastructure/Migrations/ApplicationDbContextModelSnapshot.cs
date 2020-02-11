@@ -62,14 +62,11 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("DetailsID")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoanID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("DetailsID");
 
-                    b.ToTable("BookCopy");
+                    b.ToTable("Copies");
                 });
 
             modelBuilder.Entity("Library.Domain.BookDetails", b =>
@@ -131,10 +128,7 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookCopyID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BookCopyID1")
+                    b.Property<int?>("BookCopyID")
                         .HasColumnType("int");
 
                     b.Property<bool>("Delayed")
@@ -154,10 +148,9 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BookCopyID1");
+                    b.HasIndex("BookCopyID");
 
-                    b.HasIndex("MemberID")
-                        .IsUnique();
+                    b.HasIndex("MemberID");
 
                     b.ToTable("Loans");
                 });
@@ -220,11 +213,11 @@ namespace Library.Infrastructure.Migrations
                 {
                     b.HasOne("Library.Domain.BookCopy", "BookCopy")
                         .WithMany()
-                        .HasForeignKey("BookCopyID1");
+                        .HasForeignKey("BookCopyID");
 
                     b.HasOne("Library.Domain.Member", "Member")
-                        .WithOne("Loan")
-                        .HasForeignKey("Library.Domain.Loan", "MemberID")
+                        .WithMany("Loan")
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

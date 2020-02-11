@@ -57,7 +57,7 @@ namespace Library.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookCopy",
+                name: "Copies",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -66,9 +66,9 @@ namespace Library.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookCopy", x => x.ID);
+                    table.PrimaryKey("PK_Copies", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_BookCopy_BookDetails_DetailsID",
+                        name: "FK_Copies_BookDetails_DetailsID",
                         column: x => x.DetailsID,
                         principalTable: "BookDetails",
                         principalColumn: "ID",
@@ -85,18 +85,18 @@ namespace Library.Infrastructure.Migrations
                     ReturnTime = table.Column<DateTime>(nullable: false),
                     Delayed = table.Column<bool>(nullable: false),
                     Fine = table.Column<int>(nullable: false),
-                    BookCopyID = table.Column<int>(nullable: false),
+                    BookCopyID = table.Column<int>(nullable: true),
                     MemberID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Loans_BookCopy_BookCopyID",
+                        name: "FK_Loans_Copies_BookCopyID",
                         column: x => x.BookCopyID,
-                        principalTable: "BookCopy",
+                        principalTable: "Copies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Loans_Members_MemberID",
                         column: x => x.MemberID,
@@ -141,14 +141,14 @@ namespace Library.Infrastructure.Migrations
                 values: new object[] { 3, 2, "An intense drama of love, deception, jealousy and destruction.", "1853260185", "Othello" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookCopy_DetailsID",
-                table: "BookCopy",
-                column: "DetailsID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BookDetails_AuthorID",
                 table: "BookDetails",
                 column: "AuthorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Copies_DetailsID",
+                table: "Copies",
+                column: "DetailsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_BookCopyID",
@@ -158,8 +158,7 @@ namespace Library.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_MemberID",
                 table: "Loans",
-                column: "MemberID",
-                unique: true);
+                column: "MemberID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -168,7 +167,7 @@ namespace Library.Infrastructure.Migrations
                 name: "Loans");
 
             migrationBuilder.DropTable(
-                name: "BookCopy");
+                name: "Copies");
 
             migrationBuilder.DropTable(
                 name: "Members");

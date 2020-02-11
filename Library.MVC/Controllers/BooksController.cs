@@ -142,7 +142,7 @@ namespace Library.MVC.Controllers
         }
 
         //GET: Create Loan
-        public IActionResult CreateLoan()
+        public IActionResult CreateLoan(int id)
         {
             var vm = new LoanCreateVm();
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
@@ -158,7 +158,6 @@ namespace Library.MVC.Controllers
             {
                 //Create new member
                 var newLoan = new Loan();
-                newLoan.BookCopyID = vm.BookCopyID;
                 newLoan.LoanTime = vm.LoanTime;
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;

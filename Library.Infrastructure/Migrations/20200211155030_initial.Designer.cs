@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200207142432_initial")]
+    [Migration("20200211155030_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,7 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasIndex("DetailsID");
 
-                    b.ToTable("BookCopy");
+                    b.ToTable("Copies");
                 });
 
             modelBuilder.Entity("Library.Domain.BookDetails", b =>
@@ -130,7 +130,7 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookCopyID")
+                    b.Property<int?>("BookCopyID")
                         .HasColumnType("int");
 
                     b.Property<bool>("Delayed")
@@ -152,8 +152,7 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasIndex("BookCopyID");
 
-                    b.HasIndex("MemberID")
-                        .IsUnique();
+                    b.HasIndex("MemberID");
 
                     b.ToTable("Loans");
                 });
@@ -216,13 +215,11 @@ namespace Library.Infrastructure.Migrations
                 {
                     b.HasOne("Library.Domain.BookCopy", "BookCopy")
                         .WithMany()
-                        .HasForeignKey("BookCopyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookCopyID");
 
                     b.HasOne("Library.Domain.Member", "Member")
-                        .WithOne("Loan")
-                        .HasForeignKey("Library.Domain.Loan", "MemberID")
+                        .WithMany("Loan")
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
