@@ -16,7 +16,7 @@ namespace Library.Infrastructure.Persistence
         public DbSet<Author> Authors { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Loan> Loans { get; set; }
-        public DbSet<BookCopy> Copies { get; set; }
+        public DbSet<BookCopy> BookCopies { get; set; }
         public object Author { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

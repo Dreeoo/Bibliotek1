@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200211155030_initial")]
+    [Migration("20200212115830_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,7 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasIndex("DetailsID");
 
-                    b.ToTable("Copies");
+                    b.ToTable("BookCopies");
                 });
 
             modelBuilder.Entity("Library.Domain.BookDetails", b =>
@@ -198,7 +198,7 @@ namespace Library.Infrastructure.Migrations
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
-                        .WithMany("Copies")
+                        .WithMany("Copy")
                         .HasForeignKey("DetailsID");
                 });
 

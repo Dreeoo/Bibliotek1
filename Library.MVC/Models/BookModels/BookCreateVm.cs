@@ -18,6 +18,6 @@ namespace Library.MVC.Models
         public SelectList AuthorList { get; set; }
         public int AuthorID { get; set; }
         public string Description { get; set; }
-        public int Copies { get; set; }
+        public int Copy { get; set; }
     }
 }

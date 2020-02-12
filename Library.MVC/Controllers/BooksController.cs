@@ -58,9 +58,9 @@ namespace Library.MVC.Controllers
                 newBook.Description = vm.Description;
                 newBook.ISBN = vm.ISBN;
                 newBook.Title = vm.Title;
-                for (int i = 0; i < vm.Copies; i++)
+                for (int i = 0; i < vm.Copy; i++)
                 {
-                    newBook.Copies.Add(new BookCopy());
+                    newBook.Copy.Add(new BookCopy());
                 }
 
                 bookService.AddBook(newBook);
@@ -132,6 +132,7 @@ namespace Library.MVC.Controllers
         public IActionResult Details(int id)
         {
             var book = bookService.GetBookById(id);
+            var bookCopy = bookService.GetBookCopyById(id);
             var vm = new BookDetailsVm();
             vm.ID = id;
             vm.Title = book.Title;
@@ -142,10 +143,12 @@ namespace Library.MVC.Controllers
         }
 
         //GET: Create Loan
-        public IActionResult CreateLoan(int id)
+        public IActionResult CreateLoan(BookDetails detailId)
         {
             var vm = new LoanCreateVm();
+            var book = bookService.GetBookCopyById(detailId);
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
+            vm.BookCopyID = book.Details.ID;
             return View(vm);
         }
         

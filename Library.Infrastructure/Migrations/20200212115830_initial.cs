@@ -57,7 +57,7 @@ namespace Library.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Copies",
+                name: "BookCopies",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -66,9 +66,9 @@ namespace Library.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Copies", x => x.ID);
+                    table.PrimaryKey("PK_BookCopies", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Copies_BookDetails_DetailsID",
+                        name: "FK_BookCopies_BookDetails_DetailsID",
                         column: x => x.DetailsID,
                         principalTable: "BookDetails",
                         principalColumn: "ID",
@@ -92,9 +92,9 @@ namespace Library.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Loans", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Loans_Copies_BookCopyID",
+                        name: "FK_Loans_BookCopies_BookCopyID",
                         column: x => x.BookCopyID,
-                        principalTable: "Copies",
+                        principalTable: "BookCopies",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -141,14 +141,14 @@ namespace Library.Infrastructure.Migrations
                 values: new object[] { 3, 2, "An intense drama of love, deception, jealousy and destruction.", "1853260185", "Othello" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookCopies_DetailsID",
+                table: "BookCopies",
+                column: "DetailsID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookDetails_AuthorID",
                 table: "BookDetails",
                 column: "AuthorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Copies_DetailsID",
-                table: "Copies",
-                column: "DetailsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_BookCopyID",
@@ -167,7 +167,7 @@ namespace Library.Infrastructure.Migrations
                 name: "Loans");
 
             migrationBuilder.DropTable(
-                name: "Copies");
+                name: "BookCopies");
 
             migrationBuilder.DropTable(
                 name: "Members");

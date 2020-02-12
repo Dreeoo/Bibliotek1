@@ -66,7 +66,7 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasIndex("DetailsID");
 
-                    b.ToTable("Copies");
+                    b.ToTable("BookCopies");
                 });
 
             modelBuilder.Entity("Library.Domain.BookDetails", b =>
@@ -196,7 +196,7 @@ namespace Library.Infrastructure.Migrations
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
-                        .WithMany("Copies")
+                        .WithMany("Copy")
                         .HasForeignKey("DetailsID");
                 });
 

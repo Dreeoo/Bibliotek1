@@ -6,37 +6,41 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>BookDetails</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Author.ID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Copies</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (int i = 0; i < Model.Copies; i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.ISBN)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Author.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Copies)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@Model.Copies">Edit</a> |
+                    <a asp-action="Index">Back to List</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
