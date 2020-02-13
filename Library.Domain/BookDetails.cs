@@ -12,6 +12,6 @@ namespace Library.Domain
         public int AuthorID { get; set; }
         public Author Author { get; set; }
         public string Description { get; set; }
-        public ICollection<BookCopy> Copy { get; set; } = new List<BookCopy>();
+        public IList<BookCopy> Copies { get; set; }
     }
 }

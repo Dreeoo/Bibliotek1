@@ -18,7 +18,7 @@
     </thead>
 
     <tbody>
-        @for (int i = 0; i < Model.Copies; i++)
+        @for (int i = 0; i < Model.Copies.Count; i++)
         {
             <tr>
                 <td>
@@ -28,10 +28,10 @@
                     @Html.DisplayFor(model => model.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.Author.ID)
+                    @Html.DisplayFor(model => model.Author.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.Copies)
+                    @Html.DisplayFor(model => model.Copies[i])
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@Model.Copies">Edit</a> |

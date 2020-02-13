@@ -35,6 +35,6 @@ namespace Library.Application.Interfaces
         ICollection<BookDetails> GetAllBooks();
         BookDetails GetBookById(int id);
 
-        BookCopy GetBookCopyById(BookDetails id);
+        BookCopy GetCopyOfBook(BookDetails book);
     }
 }

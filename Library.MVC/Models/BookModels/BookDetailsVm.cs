@@ -14,7 +14,7 @@ namespace Library.MVC.Models
         public Author Author { get; set; }
         public int AuthorID { get; set; }
         public string Description { get; set; }
-        public int Copies { get; set; }
+        public IList<BookCopy> Copies { get; set; }
 
     }
 }
