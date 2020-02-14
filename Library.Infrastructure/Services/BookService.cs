@@ -54,7 +54,8 @@ namespace Library.Infrastructure.Services
 
         public BookCopy GetCopyOfBook(BookDetails book)
         {
-            return book.Copies.ElementAt(0);
+            var copiesList = book.Copies.ToList();
+            return copiesList.Last();
         }
     }
 }

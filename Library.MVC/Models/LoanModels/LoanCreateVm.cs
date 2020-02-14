@@ -9,6 +9,7 @@ namespace Library.MVC.Models.LoanModels
 {
     public class LoanCreateVm
     {
+        public int ID { get; set; }
         [Required]
         public DateTime LoanTime { get; set; } = DateTime.Now;
         [Required]
