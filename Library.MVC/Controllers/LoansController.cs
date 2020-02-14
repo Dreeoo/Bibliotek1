@@ -25,7 +25,7 @@ namespace Library.MVC.Controllers
             this.bookService = bookService;
         }
 
-        public IActionResult index()
+        public IActionResult Index()
         {
             var vm = new LoanIndexVm();
             vm.Loans = loanService.GetAllLoans();

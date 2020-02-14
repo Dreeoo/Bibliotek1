@@ -24,6 +24,8 @@ namespace Library.Infrastructure.Services
             context.SaveChanges();
         }
 
+
+
         public ICollection<BookDetails> GetAllBooks()
         {
             // Here we are using .Include() to eager load the author, read more about loading related data at https://docs.microsoft.com/en-us/ef/core/querying/related-data
