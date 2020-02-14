@@ -131,6 +131,9 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("BookCopyID")
                         .HasColumnType("int");
 
+                    b.Property<int>("BookCopyLoanID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Delayed")
                         .HasColumnType("bit");
 
@@ -196,7 +199,7 @@ namespace Library.Infrastructure.Migrations
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
-                        .WithMany("Copy")
+                        .WithMany("Copies")
                         .HasForeignKey("DetailsID");
                 });
 

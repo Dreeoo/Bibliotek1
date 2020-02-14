@@ -144,13 +144,13 @@ namespace Library.MVC.Controllers
         }
 
         //GET: Create Loan
-        public IActionResult CreateLoan(int detailId)
+        public IActionResult CreateLoan(int id)
         {
             var vm = new LoanCreateVm();
-            var book = bookService.GetBookById(detailId);
+            var book = bookService.GetBookById(id);
             var bookCopy = bookService.GetCopyOfBook(book);
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
-            vm.BookCopyID = bookCopy.Details.ID;
+            vm.BookCopyID = bookCopy.ID;
             return View(vm);
         }
         
@@ -166,6 +166,7 @@ namespace Library.MVC.Controllers
                 newLoan.LoanTime = vm.LoanTime;
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;
+                newLoan.BookCopy.ID = vm.BookCopyID;
                 loanService.AddLoan(newLoan);
 
                 return RedirectToAction(nameof(Index));

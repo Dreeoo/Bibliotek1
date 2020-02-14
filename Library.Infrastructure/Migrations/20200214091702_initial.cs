@@ -85,6 +85,7 @@ namespace Library.Infrastructure.Migrations
                     ReturnTime = table.Column<DateTime>(nullable: false),
                     Delayed = table.Column<bool>(nullable: false),
                     Fine = table.Column<int>(nullable: false),
+                    BookCopyLoanID = table.Column<int>(nullable: false),
                     BookCopyID = table.Column<int>(nullable: true),
                     MemberID = table.Column<int>(nullable: false)
                 },

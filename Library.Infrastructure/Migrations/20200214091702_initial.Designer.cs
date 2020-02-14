@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200212115830_initial")]
+    [Migration("20200214091702_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,6 +133,9 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("BookCopyID")
                         .HasColumnType("int");
 
+                    b.Property<int>("BookCopyLoanID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Delayed")
                         .HasColumnType("bit");
 
@@ -198,7 +201,7 @@ namespace Library.Infrastructure.Migrations
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
-                        .WithMany("Copy")
+                        .WithMany("Copies")
                         .HasForeignKey("DetailsID");
                 });
 
