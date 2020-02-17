@@ -62,6 +62,9 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int?>("DetailsID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("OnLoan")
+                        .HasColumnType("bit");
+
                     b.HasKey("ID");
 
                     b.HasIndex("DetailsID");
@@ -145,6 +148,9 @@ namespace Library.Infrastructure.Migrations
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("OnLoan")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ReturnTime")
                         .HasColumnType("datetime2");

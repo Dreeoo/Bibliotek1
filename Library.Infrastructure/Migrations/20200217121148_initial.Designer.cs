@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200214091702_initial")]
+    [Migration("20200217121148_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace Library.Infrastructure.Migrations
 
                     b.Property<int?>("DetailsID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("OnLoan")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 
@@ -147,6 +150,9 @@ namespace Library.Infrastructure.Migrations
 
                     b.Property<int>("MemberID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("OnLoan")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ReturnTime")
                         .HasColumnType("datetime2");

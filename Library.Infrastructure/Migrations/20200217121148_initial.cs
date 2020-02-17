@@ -62,6 +62,7 @@ namespace Library.Infrastructure.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OnLoan = table.Column<bool>(nullable: false),
                     DetailsID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -84,6 +85,7 @@ namespace Library.Infrastructure.Migrations
                     LoanTime = table.Column<DateTime>(nullable: false),
                     ReturnTime = table.Column<DateTime>(nullable: false),
                     Delayed = table.Column<bool>(nullable: false),
+                    OnLoan = table.Column<bool>(nullable: false),
                     Fine = table.Column<int>(nullable: false),
                     BookCopyLoanID = table.Column<int>(nullable: false),
                     BookCopyID = table.Column<int>(nullable: true),

@@ -151,7 +151,8 @@ namespace Library.MVC.Controllers
             var bookCopy = bookService.GetCopyOfBook(book);
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
             vm.BookCopyID = bookCopy.ID;
-            bookCopy.OnLoan = true;
+            vm.Delayed = false;
+            vm.Fine = 0;
             return View(vm);
         }
         
@@ -168,6 +169,9 @@ namespace Library.MVC.Controllers
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;
                 newLoan.BookCopyLoanID = vm.BookCopyID;
+                newLoan.Delayed = false;
+                newLoan.Fine = 0;
+                newLoan.OnLoan = true;
                 loanService.AddLoan(newLoan);
 
                 return RedirectToAction(nameof(Index));

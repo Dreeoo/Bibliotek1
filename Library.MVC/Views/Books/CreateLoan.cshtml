@@ -36,6 +36,15 @@
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.ReturnTime)
                     </dd>
+                    <dd class="col-sm-10">
+                        @Html.HiddenFor(model => model.BookCopyID)
+                    </dd>
+                    <dd class="col-sm-10">
+                        @Html.HiddenFor(model => model.Delayed)
+                    </dd>
+                    <dd class="col-sm-10">
+                        @Html.HiddenFor(model => model.Fine)
+                    </dd>
                 </dl>
                 <div class="form-group">
                     <label asp-for="MemberList" class="control-label">AnvändarLista</label>
