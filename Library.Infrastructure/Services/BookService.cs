@@ -53,8 +53,7 @@ namespace Library.Infrastructure.Services
 
         public BookCopy GetCopyOfBook(BookDetails book)
         {
-            var copiesList = book.Copies.ToList();
-            return copiesList.Last();
+            return book.Copies.Where(x => x.OnLoan == false).ToList().Last();
         }
     }
 }

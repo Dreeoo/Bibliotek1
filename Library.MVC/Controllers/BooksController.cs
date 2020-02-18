@@ -139,7 +139,7 @@ namespace Library.MVC.Controllers
             vm.Description = book.Description;
             vm.Author = book.Author;
             vm.AuthorID = book.AuthorID;
-            vm.Copies = book.Copies.ToList();
+            vm.Copies = book.Copies.Where(x => x.OnLoan == false).ToList();
             return View(vm);
         }
 
@@ -147,12 +147,8 @@ namespace Library.MVC.Controllers
         public IActionResult CreateLoan(int id)
         {
             var vm = new LoanCreateVm();
-            var book = bookService.GetBookById(id);
-            var bookCopy = bookService.GetCopyOfBook(book);
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
-            vm.BookCopyID = bookCopy.ID;
-            vm.Delayed = false;
-            vm.Fine = 0;
+            vm.BookCopyID = id;
             return View(vm);
         }
         
@@ -163,15 +159,16 @@ namespace Library.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Create new member
-                var newLoan = new Loan();
+                var newLoan = new Loan(); 
+                var book = bookService.GetBookById(vm.BookCopyID);
+                var bookCopy = bookService.GetCopyOfBook(book);
+                newLoan.BookCopy = bookCopy;
+                newLoan.BookCopyID = bookCopy.ID;
+                newLoan.BookCopy.OnLoan = true;
+                newLoan.OnLoan = true;
                 newLoan.LoanTime = vm.LoanTime;
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;
-                newLoan.BookCopyLoanID = vm.BookCopyID;
-                newLoan.Delayed = false;
-                newLoan.Fine = 0;
-                newLoan.OnLoan = true;
                 loanService.AddLoan(newLoan);
 
                 return RedirectToAction(nameof(Index));

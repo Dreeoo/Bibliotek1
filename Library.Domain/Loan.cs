@@ -9,10 +9,10 @@ namespace Library.Domain
         public int ID { get; set; }
         public DateTime LoanTime { get; set; }
         public DateTime ReturnTime { get; set; }
-        public bool Delayed { get; set; } = true;
+        public bool Delayed { get; set; }
+        public int Fine { get; set; }
+        public int BookCopyID { get; set; }
         public bool OnLoan { get; set; }
-        public int Fine { get; set; } = 0;
-        public int BookCopyLoanID { get; set; }
         public BookCopy BookCopy { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }

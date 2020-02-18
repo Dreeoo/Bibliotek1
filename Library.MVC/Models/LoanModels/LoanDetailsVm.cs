@@ -13,6 +13,7 @@ namespace Library.MVC.Models.LoanModels
         public DateTime ReturnTime { get; set; }
         public bool Delayed { get; set; }
         public int Fine { get; set; }
+        public bool OnLoan { get; set; }
         public BookCopy BookCopy { get; set; }
         public Member Member { get; set; }
     }

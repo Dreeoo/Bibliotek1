@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200217121148_initial")]
+    [Migration("20200218115546_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,10 +133,7 @@ namespace Library.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookCopyID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookCopyLoanID")
+                    b.Property<int>("BookCopyID")
                         .HasColumnType("int");
 
                     b.Property<bool>("Delayed")
@@ -224,7 +221,9 @@ namespace Library.Infrastructure.Migrations
                 {
                     b.HasOne("Library.Domain.BookCopy", "BookCopy")
                         .WithMany()
-                        .HasForeignKey("BookCopyID");
+                        .HasForeignKey("BookCopyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Library.Domain.Member", "Member")
                         .WithMany("Loan")
