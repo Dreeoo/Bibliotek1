@@ -17,12 +17,14 @@ namespace Library.MVC.Controllers
         private readonly ILoanService loanService;
         private readonly IMemberService memberService;
         private readonly IBookService bookService;
+        private readonly IBookCopyService bookCopyService;
 
-        public LoansController(ILoanService loanService, IMemberService memberService, IBookService bookService)
+        public LoansController(ILoanService loanService, IMemberService memberService, IBookService bookService, IBookCopyService bookCopyService)
         {
             this.loanService = loanService;
             this.memberService = memberService;
             this.bookService = bookService;
+            this.bookCopyService = bookCopyService;
         }
 
         public IActionResult Index()
@@ -54,6 +56,40 @@ namespace Library.MVC.Controllers
             vm.Delayed = loan.Delayed;
             vm.Fine = loan.Fine;
             return View(vm);
+        }
+
+        // GET: Return book copy
+        public IActionResult Return(int id)
+        {
+            var loan = loanService.GetLoanById(id);
+            var vm = new LoanReturnVm();
+            vm.ID = id;
+            vm.LoanTime = loan.LoanTime;
+            vm.ReturnTime = loan.ReturnTime;
+            vm.MemberID = loan.MemberID;
+            vm.BookCopyID = loan.BookCopyID;
+            vm.Delayed = loan.Delayed;
+            vm.Fine = loan.Fine;
+            return View(vm);
+        }
+
+        // POST: Return book copy
+        [HttpPost]
+        public IActionResult Return(LoanReturnVm vm)
+        {
+            var loan = loanService.GetLoanById(vm.ID);
+            var returnedLoan = new Loan();
+            returnedLoan.ID = vm.ID;
+            returnedLoan.BookCopy = loan.BookCopy;
+            returnedLoan.LoanTime = vm.LoanTime;
+            returnedLoan.ReturnTime = vm.ReturnTime;
+            returnedLoan.MemberID = vm.MemberID;
+            returnedLoan.Delayed = vm.Delayed;
+            returnedLoan.Fine = vm.Fine;
+            returnedLoan.Returned = true;
+            returnedLoan.BookCopy.OnLoan = false;
+            loanService.ReturnLoan(returnedLoan);
+            return RedirectToAction(nameof(Index));
         }
 
         //// GET: Loans

@@ -12,7 +12,7 @@ namespace Library.Domain
         public bool Delayed { get; set; }
         public int Fine { get; set; }
         public int BookCopyID { get; set; }
-        public bool OnLoan { get; set; }
+        public bool Returned { get; set; } = true;
         public BookCopy BookCopy { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }

@@ -165,7 +165,7 @@ namespace Library.MVC.Controllers
                 newLoan.BookCopy = bookCopy;
                 newLoan.BookCopyID = bookCopy.ID;
                 newLoan.BookCopy.OnLoan = true;
-                newLoan.OnLoan = true;
+                newLoan.Returned = false;
                 newLoan.LoanTime = vm.LoanTime;
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;
