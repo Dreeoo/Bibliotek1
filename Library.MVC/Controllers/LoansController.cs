@@ -55,7 +55,7 @@ namespace Library.MVC.Controllers
         // GET: Return book copy
         public IActionResult Return(int id)
         {
-            var loan = loanService.GetLoanById(id);
+            var loanToReturn = loanService.GetLoanById(id);
             var vm = new LoanReturnVm();
             vm.ID = id;
             vm.LoanTime = loan.LoanTime;
@@ -71,7 +71,8 @@ namespace Library.MVC.Controllers
 
         // POST: Return book copy
         [HttpPost]
-        public IActionResult Return(LoanReturnVm vm)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Return(LoanReturnVm vm)
         {
             var loanToReturn = loanService.GetLoanById(vm.ID);
             var returnedLoan = new Loan();
