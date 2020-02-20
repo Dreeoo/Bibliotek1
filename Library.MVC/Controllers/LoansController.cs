@@ -3,6 +3,7 @@ using Library.Domain;
 using Library.MVC.Models.LoanModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace Library.MVC.Controllers
 {
@@ -58,14 +59,12 @@ namespace Library.MVC.Controllers
             var loanToReturn = loanService.GetLoanById(id);
             var vm = new LoanReturnVm();
             vm.ID = id;
-            vm.LoanTime = loan.LoanTime;
-            vm.ReturnTime = loan.ReturnTime;
-            vm.MemberID = loan.MemberID;
-            vm.BookCopyID = loan.BookCopyID;
-            vm.BookCopy = loan.BookCopy;
-            vm.Delayed = loan.Delayed;
-            vm.Fine = loan.Fine;
-            vm.Returned = loan.Returned;
+            vm.LoanTime = loanToReturn.LoanTime;
+            vm.ReturnTime = loanToReturn.ReturnTime;
+            vm.MemberID = loanToReturn.Member.ID;
+            vm.BookCopyID = loanToReturn.BookCopy.ID;
+            vm.Delayed = loanToReturn.Delayed;
+            vm.Fine = loanToReturn.Fine;
             return View(vm);
         }
 
@@ -74,20 +73,24 @@ namespace Library.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(LoanReturnVm vm)
         {
-            var loanToReturn = loanService.GetLoanById(vm.ID);
-            var returnedLoan = new Loan();
-            returnedLoan.ID = vm.ID;
-            returnedLoan.BookCopyID = loanToReturn.BookCopyID;
-            returnedLoan.BookCopy = loanToReturn.BookCopy;
-            returnedLoan.LoanTime = loanToReturn.LoanTime;
-            returnedLoan.ReturnTime = loanToReturn.ReturnTime;
-            returnedLoan.MemberID = loanToReturn.MemberID;
-            returnedLoan.Delayed = loanToReturn.Delayed;
-            returnedLoan.Fine = loanToReturn.Fine;
-            returnedLoan.Returned = true;
-            returnedLoan.BookCopy.OnLoan = false;
-            loanService.ReturnLoan(returnedLoan);
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                var returnedLoan = new Loan(); // Spara i ny lista av lån
+                returnedLoan.ID = vm.ID;
+                returnedLoan.BookCopy = bookCopyService.GetBookCopyById(vm.BookCopyID);
+                returnedLoan.LoanTime = vm.LoanTime;
+                returnedLoan.ReturnTime = vm.ReturnTime;
+                returnedLoan.BookCopyID = returnedLoan.BookCopy.ID;
+                returnedLoan.MemberID = vm.MemberID;
+                returnedLoan.Delayed = vm.Delayed;
+                returnedLoan.Fine = vm.Fine;
+                returnedLoan.Returned = true;
+                returnedLoan.BookCopy.OnLoan = false;
+                loanService.ReturnLoan(returnedLoan);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("Error", "Home", "");
         }
 
         //// GET: Loans
