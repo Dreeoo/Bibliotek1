@@ -11,5 +11,6 @@ namespace Library.Application.Interfaces
         void AddLoan(Loan newLoan);
         void ReturnLoan(Loan returnLoan);
         Loan GetLoanById(int id);
+        int FineIncrease(DateTime returnTime);
     }
 }
