@@ -60,6 +60,10 @@ namespace Library.MVC.Controllers
                     loan.Fine = vm.Fine;
                     loanService.UpdateLoan(loan);
                 }
+                else
+                {
+                    vm.Fine = loan.Fine;
+                }
             }
             else
             {
@@ -71,6 +75,7 @@ namespace Library.MVC.Controllers
         // GET: Return book copy
         public IActionResult Return(int id)
         {
+            var date = loanService.ReturnDate();
             var loanToReturn = loanService.GetLoanById(id);
             var vm = new LoanReturnVm();
             vm.ID = id;
@@ -78,8 +83,23 @@ namespace Library.MVC.Controllers
             vm.ReturnTime = loanToReturn.ReturnTime;
             vm.MemberID = loanToReturn.Member.ID;
             vm.BookCopyID = loanToReturn.BookCopy.ID;
-            vm.Delayed = loanToReturn.Delayed;
-            vm.Fine = loanToReturn.Fine;
+            if (vm.ReturnTime.Date < date)
+            {
+                vm.Delayed = true;
+
+                if (vm.Delayed == true)
+                {
+                    vm.Fine = loanService.FineIncrease(vm.ReturnTime);
+                }
+                else
+                {
+                    vm.Fine = loanToReturn.Fine;
+                }
+            }
+            else
+            {
+                vm.Delayed = false;
+            }
             return View(vm);
         }
 
@@ -90,6 +110,7 @@ namespace Library.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var date = loanService.ReturnDate();
                 var returnedLoan = new Loan(); // Spara i ny lista av lån
                 returnedLoan.ID = vm.ID;
                 returnedLoan.BookCopy = bookCopyService.GetBookCopyById(vm.BookCopyID);
@@ -97,19 +118,29 @@ namespace Library.MVC.Controllers
                 returnedLoan.ReturnTime = vm.ReturnTime;
                 returnedLoan.BookCopyID = returnedLoan.BookCopy.ID;
                 returnedLoan.MemberID = vm.MemberID;
-                returnedLoan.Delayed = vm.Delayed;
-                returnedLoan.Fine = vm.Fine;
+                if (vm.ReturnTime.Date < date)
+                {
+                    vm.Delayed = true;
+
+                    if (vm.Delayed == true)
+                    {
+                        returnedLoan.Fine = loanService.FineIncrease(vm.ReturnTime);
+                    }
+                    else
+                    {
+                        returnedLoan.Fine = vm.Fine;
+                    }
+                }
+                else
+                {
+                    vm.Delayed = false;
+                }
                 returnedLoan.Returned = true;
                 returnedLoan.BookCopy.OnLoan = false;
                 loanService.ReturnLoan(returnedLoan);
                 return RedirectToAction(nameof(Index));
             }
             return RedirectToAction("Error", "Home", "");
-        }
-
-        public void FineIncrease()
-        {
-            
         }
 
         //// GET: Loans

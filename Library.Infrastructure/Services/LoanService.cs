@@ -39,8 +39,13 @@ namespace Library.Infrastructure.Services
             {
                 fine += 12;
             }
-
             return fine;
+        }
+
+        public void UpdateLoan(Loan loan)
+        {
+            context.Update(loan);
+            context.SaveChanges();
         }
 
         public ICollection<Loan> GetAllLoans()
