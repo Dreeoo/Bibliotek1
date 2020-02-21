@@ -27,32 +27,32 @@
         <tbody>
             @foreach (var item in Model.Loans)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Member.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookCopy.Details.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LoanTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReturnTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Delayed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fine)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Return" asp-route-id="@item.ID">Return</a>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookCopy.Details.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoanTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReturnTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Delayed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fine)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Return" asp-route-id="@item.ID">Return</a>
+                    </td>
+                </tr>
             }
-        </tbody>
+            </tbody>
     </table>
 </body>
 </html>

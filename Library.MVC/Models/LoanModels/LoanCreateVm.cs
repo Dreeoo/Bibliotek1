@@ -12,9 +12,9 @@ namespace Library.MVC.Models.LoanModels
     {
         public int ID { get; set; }
         [Required]
-        public DateTime LoanTime { get; set; } = DateTime.Now;
+        public DateTime LoanTime { get; set; } = DateTime.Today;
         [Required]
-        public DateTime ReturnTime { get; set; } = DateTime.Now.AddDays(14);
+        public DateTime ReturnTime { get; set; } = DateTime.Today.AddDays(14);
         public SelectList BookList { get; set; }
         public SelectList MemberList { get; set; }
         public bool Delayed { get; set; }
