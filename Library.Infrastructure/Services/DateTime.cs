@@ -5,7 +5,11 @@ namespace Library.Infrastructure.Services
 {
     public class DateTimeService : IDateTimeService
     {
-        public DateTime Now { get; set; } = DateTime.Now;
+        public DateTime ReturnDate()
+        {
+            var date = DateTime.Today;
+            return date;
+        }
     }
 }
 

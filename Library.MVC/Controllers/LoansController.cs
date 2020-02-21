@@ -13,7 +13,6 @@ namespace Library.MVC.Controllers
         private readonly IMemberService memberService;
         private readonly IBookService bookService;
         private readonly IBookCopyService bookCopyService;
-        private readonly IDateTimeService dateTimeService;
 
         public LoansController(ILoanService loanService, IMemberService memberService, IBookService bookService, IBookCopyService bookCopyService)
         {
@@ -21,7 +20,6 @@ namespace Library.MVC.Controllers
             this.memberService = memberService;
             this.bookService = bookService;
             this.bookCopyService = bookCopyService;
-            this.dateTimeService = dateTimeService;
         }
 
         public IActionResult Index()
@@ -43,7 +41,7 @@ namespace Library.MVC.Controllers
         //GET: Get details
         public IActionResult Details(int id)
         {
-            var date = dateTimeService.Now;
+            var date = loanService.ReturnDate();
             var loan = loanService.GetLoanById(id);
             var vm = new LoanDetailsVm();
             vm.ID = id;
@@ -51,7 +49,7 @@ namespace Library.MVC.Controllers
             vm.LoanTime = loan.LoanTime;
             vm.ReturnTime = loan.ReturnTime;
             vm.Member = loan.Member;
-            if (vm.ReturnTime.Date > date)
+            if (vm.ReturnTime.Date < date)
             {
                 vm.Delayed = true;
 
