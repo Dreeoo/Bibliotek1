@@ -11,12 +11,10 @@ namespace Library.Infrastructure.Services
     public class LoanService : ILoanService
     {
         private readonly ApplicationDbContext context;
-
         public LoanService(ApplicationDbContext context)
         {
             this.context = context;
         }
-
         public void AddLoan(Loan newLoan)
         {
             context.Add(newLoan);
@@ -27,7 +25,6 @@ namespace Library.Infrastructure.Services
             var date = DateTime.Today;
             return date;
         }
-
         public int FineIncrease(DateTime returnTime)
         {
             DateTime dayIncrease = DateTime.Today;
@@ -41,13 +38,6 @@ namespace Library.Infrastructure.Services
             }
             return fine;
         }
-
-        public void UpdateLoan(Loan loan)
-        {
-            context.Update(loan);
-            context.SaveChanges();
-        }
-
         public ICollection<Loan> GetAllLoans()
         {
             // Here we are NOT using .Include() so the authors books will NOT be loaded, read more about loading related data at https://docs.microsoft.com/en-us/ef/core/querying/related-data
@@ -58,8 +48,7 @@ namespace Library.Infrastructure.Services
                 .ThenInclude(x => x.Details)
                 .OrderBy(x => x.Delayed)
                 .ToList();            
-            ;}
-
+            }
         public Loan GetLoanById(int id)
         {
             return 
@@ -70,7 +59,6 @@ namespace Library.Infrastructure.Services
                 .SingleOrDefault(x => x.ID == id)
             ;
         }
-
         public void ReturnLoan(Loan returnLoan)
         {
             context.Remove(returnLoan);
@@ -81,7 +69,6 @@ namespace Library.Infrastructure.Services
             context.Update(loan);
             context.SaveChanges();
         }
-
         public IList<Loan> GetLoansByMember(Member member)
         {
             return
