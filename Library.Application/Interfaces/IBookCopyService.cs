@@ -12,6 +12,7 @@ namespace Library.Application.Interfaces
         /// </summary>
         /// <returns>list of book copies</returns>
         IList<BookCopy> GetAllBookCopies();
+        IList<BookCopy> GetAvailableBookCopies(BookDetails book);
         BookCopy GetBookCopyById(int id);
     }
 }

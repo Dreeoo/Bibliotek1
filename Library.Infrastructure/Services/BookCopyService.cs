@@ -31,5 +31,10 @@ namespace Library.Infrastructure.Services
         {
             return context.BookCopies.Include(x => x.Details).SingleOrDefault(x => x.ID == id);
         }
+
+        public IList<BookCopy> GetAvailableBookCopies(BookDetails book)
+        {
+            return book.Copies.Where(x => x.OnLoan == false).ToList();
+        }
     }
 }

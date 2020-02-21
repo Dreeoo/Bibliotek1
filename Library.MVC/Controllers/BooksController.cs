@@ -18,13 +18,15 @@ namespace Library.MVC.Controllers
         private readonly IAuthorService authorService;
         private readonly IMemberService memberService;
         private readonly ILoanService loanService;
+        private readonly IBookCopyService bookCopyService;
 
-        public BooksController(IBookService bookService, IAuthorService authorService, IMemberService memberService, ILoanService loanService)
+        public BooksController(IBookService bookService, IAuthorService authorService, IMemberService memberService, ILoanService loanService, IBookCopyService bookCopyService)
         {
             this.bookService = bookService;
             this.authorService = authorService;
             this.memberService = memberService;
             this.loanService = loanService;
+            this.bookCopyService = bookCopyService;
         }
 
         //GET: Books
@@ -139,7 +141,7 @@ namespace Library.MVC.Controllers
             vm.Description = book.Description;
             vm.Author = book.Author;
             vm.AuthorID = book.AuthorID;
-            vm.Copies = book.Copies.Where(x => x.OnLoan == false).ToList();
+            vm.Copies = book.Copies.ToList();
             return View(vm);
         }
 

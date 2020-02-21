@@ -34,6 +34,8 @@ namespace Library.MVC
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<ILoanService, LoanService>();
             services.AddScoped<IBookCopyService, BookCopyService>();
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
 
             // This call injects our applicationDbContext (our implementation of Entity Framework Core)
             services.AddDbContext<ApplicationDbContext>(options =>
