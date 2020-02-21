@@ -52,9 +52,7 @@ namespace Library.Infrastructure.Services
                 .Include(x => x.BookCopy)
                 .ThenInclude(x => x.Details)
                 .OrderBy(x => x.Delayed)
-                .ToList();
-                
-               
+                .ToList();            
             ;}
 
         public Loan GetLoanById(int id)
@@ -72,6 +70,22 @@ namespace Library.Infrastructure.Services
         {
             context.Remove(returnLoan);
             context.SaveChanges();
+        }
+        public void UpdateLoan(Loan loan)
+        {
+            context.Update(loan);
+            context.SaveChanges();
+        }
+
+        public IList<Loan> GetLoansByMember(Member member)
+        {
+            return
+                context.Loans.Where(x => x.Member == member)
+                .Include(x => x.BookCopy)
+                .ThenInclude(x => x.Details)
+                .ThenInclude(x => x.Author)
+                .OrderBy(x => x.Delayed)
+                .ToList();
         }
     }
 }

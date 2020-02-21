@@ -114,6 +114,7 @@ namespace Library.MVC.Controllers
             vm.ID = id;
             vm.SSN = member.SSN;
             vm.Name = member.Name;
+            vm.Loans = loanService.GetLoansByMember(member);
             return View(vm);
         }
     }

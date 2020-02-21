@@ -49,17 +49,16 @@ namespace Library.MVC.Controllers
             vm.LoanTime = loan.LoanTime;
             vm.ReturnTime = loan.ReturnTime;
             vm.Member = loan.Member;
-            if (vm.ReturnTime.Date < date)
+            if(vm.ReturnTime.Date < date)
             {
                 vm.Delayed = true;
 
                 if (vm.Delayed == true)
                 {
                     vm.Fine = loanService.FineIncrease(vm.ReturnTime);
-                }
-                else
-                {
-                    vm.Fine = loan.Fine;
+                    loan.Delayed = vm.Delayed;
+                    loan.Fine = vm.Fine;
+                    loanService.UpdateLoan(loan);
                 }
             }
             else

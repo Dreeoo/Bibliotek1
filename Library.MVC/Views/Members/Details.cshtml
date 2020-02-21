@@ -35,5 +35,48 @@
         <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
         <a asp-action="Index">Back to List</a>
     </div>
+
+    <br />
+    <h4>Member Loans</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Loan Time</th>
+                <th>Return Time</th>
+                <th>Delayed</th>
+                <th>Fine</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Loans)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCopy.Details.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCopy.Details.Author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LoanTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Delayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fine)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
 </body>
 </html>
