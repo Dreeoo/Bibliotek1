@@ -23,6 +23,21 @@ namespace Library.Infrastructure.Services
             context.SaveChanges();
         }
 
+        public int FineIncrease(DateTime returnTime)
+        {
+            DateTime dayIncrease = DateTime.Now;
+            TimeSpan days = dayIncrease - returnTime;
+            int totalDays = int.Parse(days.Days.ToString());
+            int fine = 0;
+
+            for (int i = 0; i < totalDays; i++)
+            {
+                fine += 12;
+            }
+
+            return fine;
+        }
+
         public ICollection<Loan> GetAllLoans()
         {
             // Here we are NOT using .Include() so the authors books will NOT be loaded, read more about loading related data at https://docs.microsoft.com/en-us/ef/core/querying/related-data

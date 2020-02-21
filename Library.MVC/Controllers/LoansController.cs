@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Library.Application.Interfaces;
+using Library.Domain;
+using Library.MVC.Models.LoanModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Library.Domain;
-using Library.Infrastructure.Persistence;
-using Library.Application.Interfaces;
-using Library.MVC.Models.LoanModels;
+using System.Threading.Tasks;
 
 namespace Library.MVC.Controllers
 {
@@ -18,6 +13,7 @@ namespace Library.MVC.Controllers
         private readonly IMemberService memberService;
         private readonly IBookService bookService;
         private readonly IBookCopyService bookCopyService;
+        private readonly IDateTimeService dateTimeService;
 
         public LoansController(ILoanService loanService, IMemberService memberService, IBookService bookService, IBookCopyService bookCopyService)
         {
@@ -25,6 +21,7 @@ namespace Library.MVC.Controllers
             this.memberService = memberService;
             this.bookService = bookService;
             this.bookCopyService = bookCopyService;
+            this.dateTimeService = dateTimeService;
         }
 
         public IActionResult Index()
@@ -46,6 +43,7 @@ namespace Library.MVC.Controllers
         //GET: Get details
         public IActionResult Details(int id)
         {
+            var date = dateTimeService.Now;
             var loan = loanService.GetLoanById(id);
             var vm = new LoanDetailsVm();
             vm.ID = id;
@@ -53,8 +51,23 @@ namespace Library.MVC.Controllers
             vm.LoanTime = loan.LoanTime;
             vm.ReturnTime = loan.ReturnTime;
             vm.Member = loan.Member;
-            vm.Delayed = loan.Delayed;
-            vm.Fine = loan.Fine;
+            if (vm.ReturnTime.Date > date)
+            {
+                vm.Delayed = true;
+
+                if (vm.Delayed == true)
+                {
+                    vm.Fine = loanService.FineIncrease(vm.ReturnTime);
+                }
+                else
+                {
+                    vm.Fine = loan.Fine;
+                }
+            }
+            else
+            {
+                vm.Delayed = false;
+            }
             return View(vm);
         }
 
@@ -94,8 +107,12 @@ namespace Library.MVC.Controllers
                 loanService.ReturnLoan(returnedLoan);
                 return RedirectToAction(nameof(Index));
             }
-
             return RedirectToAction("Error", "Home", "");
+        }
+
+        public void FineIncrease()
+        {
+            
         }
 
         //// GET: Loans
