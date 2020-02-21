@@ -22,10 +22,15 @@ namespace Library.Infrastructure.Services
             context.Add(newLoan);
             context.SaveChanges();
         }
+        public DateTime ReturnDate()
+        {
+            var date = DateTime.Today;
+            return date;
+        }
 
         public int FineIncrease(DateTime returnTime)
         {
-            DateTime dayIncrease = DateTime.Now;
+            DateTime dayIncrease = DateTime.Today;
             TimeSpan days = dayIncrease - returnTime;
             int totalDays = int.Parse(days.Days.ToString());
             int fine = 0;

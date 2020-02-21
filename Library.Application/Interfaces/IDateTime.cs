@@ -6,7 +6,6 @@ namespace Library.Application.Interfaces
 {
     public interface IDateTimeService
     {
-        DateTime Now { get; set; }
-
+        public DateTime ReturnDate();
     }
 }
