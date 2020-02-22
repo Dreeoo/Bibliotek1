@@ -50,8 +50,8 @@
                     </dd>
                 </dl>
                 <div class="form-group">
-                    <label asp-for="MemberList" class="control-label">AnvändarLista</label>
-                    @Html.DropDownListFor(m => m.MemberID, Model.MemberList, "Välj användare")
+                    <label asp-for="MemberList" class="control-label">Användarlista: </label>
+                    @Html.DropDownListFor(m => m.MemberID, Model.MemberList, "Välj låntagare")
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />

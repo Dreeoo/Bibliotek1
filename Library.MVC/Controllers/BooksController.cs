@@ -64,6 +64,7 @@ namespace Library.MVC.Controllers
                 {
                     newBook.Copies.Add(new BookCopy());
                 }
+                newBook.CopiesAvailable = bookService.GetNumberOfAvailableCopies(newBook);
 
                 bookService.AddBook(newBook);
 
@@ -150,7 +151,7 @@ namespace Library.MVC.Controllers
         {
             var vm = new LoanCreateVm();
             vm.MemberList = new SelectList(memberService.GetAllMembers(), "ID", "Name");
-            vm.BookCopyID = id;
+            vm.ID = id;
             return View(vm);
         }
         
@@ -162,7 +163,7 @@ namespace Library.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var newLoan = new Loan(); 
-                var book = bookService.GetBookById(vm.BookCopyID);
+                var book = bookService.GetBookById(vm.ID);
                 var bookCopy = bookService.GetCopyOfBook(book);
                 newLoan.BookCopy = bookCopy;
                 newLoan.BookCopyID = bookCopy.ID;
@@ -171,6 +172,8 @@ namespace Library.MVC.Controllers
                 newLoan.LoanTime = vm.LoanTime;
                 newLoan.ReturnTime = vm.ReturnTime;
                 newLoan.MemberID = vm.MemberID;
+                book.CopiesAvailable = bookService.GetNumberOfAvailableCopies(book);
+                bookService.UpdateBookDetails(book);
                 loanService.AddLoan(newLoan);
 
                 return RedirectToAction(nameof(Index));

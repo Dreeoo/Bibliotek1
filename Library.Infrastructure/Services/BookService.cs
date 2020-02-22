@@ -29,6 +29,11 @@ namespace Library.Infrastructure.Services
             return context.BookDetails.Include(x => x.Author).Include(x => x.Copies).OrderBy(x => x.Title).ToList();
         }
 
+        public int GetNumberOfAvailableCopies(BookDetails book)
+        {
+            return book.Copies.Where(x => x.OnLoan == false).Count();
+        }
+
         public BookDetails GetBookById(int id)
         {
             return context.BookDetails.Include(x => x.Copies).Include(x => x.Author).SingleOrDefault(x => x.ID == id);

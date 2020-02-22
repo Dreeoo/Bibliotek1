@@ -12,6 +12,7 @@ namespace Library.Domain
         public int AuthorID { get; set; }
         public Author Author { get; set; }
         public string Description { get; set; }
+        public int CopiesAvailable { get; set; }
         public ICollection<BookCopy> Copies { get; set; } = new List<BookCopy>();
     }
 }
