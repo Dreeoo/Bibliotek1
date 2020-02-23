@@ -111,7 +111,7 @@ namespace Library.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var date = loanService.ReturnDate();
-                var book = bookService.GetBookById(vm.BookCopy.Details.ID);
+                // var book = bookService.GetBookById(vm.);
                 var returnedLoan = new Loan(); // Spara i ny lista av lån
                 returnedLoan.ID = vm.ID;
                 returnedLoan.BookCopy = bookCopyService.GetBookCopyById(vm.BookCopyID);
@@ -138,7 +138,8 @@ namespace Library.MVC.Controllers
                 }
                 returnedLoan.Returned = true;
                 returnedLoan.BookCopy.OnLoan = false;
-                returnedLoan.BookCopy.Details.CopiesAvailable = bookService.GetNumberOfAvailableCopies(book);
+                returnedLoan.BookCopy.Details.CopiesAvailable += bookService.GetNumberOfAvailableCopies(returnedLoan.BookCopy.Details);
+                bookService.UpdateBookDetails(returnedLoan.BookCopy.Details);
                 loanService.ReturnLoan(returnedLoan);
                 return RedirectToAction(nameof(Index));
             }
