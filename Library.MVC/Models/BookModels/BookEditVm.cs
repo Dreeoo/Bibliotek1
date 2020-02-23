@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Library.Domain;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,7 @@ namespace Library.MVC.Models
         public SelectList AuthorList { get; set; }
         public int AuthorID { get; set; }
         public string Description { get; set; }
-        public int Copies { get; set; }
+        public ICollection<BookCopy> Copies { get; set; }
+        public int NumberCopies { get; set; }
     }
 }

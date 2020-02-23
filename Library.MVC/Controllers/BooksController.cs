@@ -85,6 +85,7 @@ namespace Library.MVC.Controllers
             vm.Description = book.Description;
             vm.AuthorID = book.AuthorID;
             vm.Copies = book.Copies;
+            vm.NumberCopies = vm.Copies.Count();
 
             vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "ID", "Name", book.AuthorID);
 
@@ -97,22 +98,23 @@ namespace Library.MVC.Controllers
         {
             var editedBook = new BookDetails();
             var book = bookService.GetBookById(vm.ID);
+            var books = book.Copies.ToList();
             editedBook.ID = vm.ID;
             editedBook.Title = vm.Title;
             editedBook.ISBN = vm.ISBN;
             editedBook.Description = vm.Description;
             editedBook.AuthorID = vm.AuthorID;
-            editedBook.Copies = vm.Copies;
-            if (book.Copies.Count > vm.Copies.Count)
+            if (book.Copies.Count > vm.NumberCopies)
             {
-                for (int i = book.Copies.Count; i > vm.Copies.Count; i--)
+                for (int i = books.Count; i > vm.NumberCopies; i--)
                 {
-                    book.Copies.Remove(vm.Copies);
+                    books.RemoveAt(books.Count - 1);
+                    editedBook.Copies = books;
                 }
             }
-            if (book.Copies.Count < vm.Copies.Count)
+            if (book.Copies.Count < vm.NumberCopies)
             {
-                for (int i = 0; i < vm.Copies.Count; i++)
+                for (int i = book.Copies.Count; i < vm.NumberCopies; i++)
                 {
                     book.Copies.Add(new BookCopy());
                 }
