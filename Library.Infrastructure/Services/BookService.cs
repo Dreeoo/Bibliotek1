@@ -49,7 +49,8 @@ namespace Library.Infrastructure.Services
 
         public void DeleteBook(BookDetails book)
         {
-            context.Remove(book);
+            var removeBook = GetBookById(book.ID);
+            context.Remove(removeBook);
             context.SaveChanges();
         }
 
