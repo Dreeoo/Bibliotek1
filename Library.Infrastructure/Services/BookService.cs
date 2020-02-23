@@ -41,7 +41,8 @@ namespace Library.Infrastructure.Services
 
         public void UpdateBookDetails(BookDetails book)
         {
-            context.Update(book);
+            var editbook = GetBookById(book.ID);
+            context.Update(editbook);
             context.SaveChanges();
         }
 

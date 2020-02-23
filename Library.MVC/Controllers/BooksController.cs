@@ -84,6 +84,7 @@ namespace Library.MVC.Controllers
             vm.ISBN = book.ISBN;
             vm.Description = book.Description;
             vm.AuthorID = book.AuthorID;
+            vm.Copies = book.Copies;
 
             vm.AuthorList = new SelectList(authorService.GetAllAuthors(), "ID", "Name", book.AuthorID);
 
@@ -95,11 +96,27 @@ namespace Library.MVC.Controllers
         public IActionResult Edit(BookEditVm vm)
         {
             var editedBook = new BookDetails();
+            var book = bookService.GetBookById(vm.ID);
             editedBook.ID = vm.ID;
             editedBook.Title = vm.Title;
             editedBook.ISBN = vm.ISBN;
             editedBook.Description = vm.Description;
             editedBook.AuthorID = vm.AuthorID;
+            editedBook.Copies = vm.Copies;
+            if (book.Copies.Count > vm.Copies.Count)
+            {
+                for (int i = book.Copies.Count; i > vm.Copies.Count; i--)
+                {
+                    book.Copies.Remove(vm.Copies);
+                }
+            }
+            if (book.Copies.Count < vm.Copies.Count)
+            {
+                for (int i = 0; i < vm.Copies.Count; i++)
+                {
+                    book.Copies.Add(new BookCopy());
+                }
+            }
             bookService.UpdateBookDetails(editedBook);
             return RedirectToAction(nameof(Index));
         }
