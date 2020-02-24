@@ -8,8 +8,10 @@ namespace Library.Application.Interfaces
     public interface ILoanService
     {
         ICollection<Loan> GetAllLoans();
+        ICollection<ReturnedLoans> GetReturnedLoans();
         IList<Loan> GetLoansByMember(Member member);
         void AddLoan(Loan newLoan);
+        void AddReturnedLoan(ReturnedLoans returnedLoan);
         void ReturnLoan(Loan returnLoan);
         Loan GetLoanById(int id);
         int FineIncrease(DateTime returnTime);

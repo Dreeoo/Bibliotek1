@@ -176,6 +176,35 @@ namespace Library.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookCopyID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Delayed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Fine")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Returned")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
+
+                    b.ToTable("ReturnedLoans");
+                });
+
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
@@ -202,6 +231,15 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasOne("Library.Domain.Member", "Member")
                         .WithMany("Loan")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
+                {
+                    b.HasOne("Library.Domain.Member", "Member")
+                        .WithMany()
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

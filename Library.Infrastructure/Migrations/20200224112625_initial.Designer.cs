@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200219101144_second")]
-    partial class second
+    [Migration("20200224112625_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,9 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int>("AuthorID")
                         .HasColumnType("int");
 
+                    b.Property<int>("CopiesAvailable")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -98,32 +101,6 @@ namespace Library.Infrastructure.Migrations
                     b.HasIndex("AuthorID");
 
                     b.ToTable("BookDetails");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            AuthorID = 1,
-                            Description = "Arguably Shakespeare's greatest tragedy",
-                            ISBN = "1472518381",
-                            Title = "Hamlet"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            AuthorID = 1,
-                            Description = "King Lear is a tragedy written by William Shakespeare. It depicts the gradual descent into madness of the title character, after he disposes of his kingdom by giving bequests to two of his three daughters egged on by their continual flattery, bringing tragic consequences for all.",
-                            ISBN = "9780141012292",
-                            Title = "King Lear"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            AuthorID = 2,
-                            Description = "An intense drama of love, deception, jealousy and destruction.",
-                            ISBN = "1853260185",
-                            Title = "Othello"
-                        });
                 });
 
             modelBuilder.Entity("Library.Domain.Loan", b =>
@@ -201,6 +178,35 @@ namespace Library.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookCopyID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Delayed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Fine")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Returned")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
+
+                    b.ToTable("ReturnedLoans");
+                });
+
             modelBuilder.Entity("Library.Domain.BookCopy", b =>
                 {
                     b.HasOne("Library.Domain.BookDetails", "Details")
@@ -227,6 +233,15 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasOne("Library.Domain.Member", "Member")
                         .WithMany("Loan")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
+                {
+                    b.HasOne("Library.Domain.Member", "Member")
+                        .WithMany()
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

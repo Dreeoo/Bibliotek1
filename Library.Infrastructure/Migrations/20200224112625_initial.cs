@@ -43,7 +43,8 @@ namespace Library.Infrastructure.Migrations
                     ISBN = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     AuthorID = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    CopiesAvailable = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,6 +53,29 @@ namespace Library.Infrastructure.Migrations
                         name: "FK_BookDetails_Authors_AuthorID",
                         column: x => x.AuthorID,
                         principalTable: "Authors",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReturnedLoans",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Delayed = table.Column<bool>(nullable: false),
+                    Fine = table.Column<int>(nullable: false),
+                    Returned = table.Column<bool>(nullable: false),
+                    BookCopyID = table.Column<int>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReturnedLoans", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ReturnedLoans_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -86,8 +110,8 @@ namespace Library.Infrastructure.Migrations
                     ReturnTime = table.Column<DateTime>(nullable: false),
                     Delayed = table.Column<bool>(nullable: false),
                     Fine = table.Column<int>(nullable: false),
+                    Returned = table.Column<bool>(nullable: false),
                     BookCopyID = table.Column<int>(nullable: false),
-                    OnLoan = table.Column<bool>(nullable: false),
                     MemberID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -127,21 +151,6 @@ namespace Library.Infrastructure.Migrations
                     { 3, "Hampus Log", "862393" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "BookDetails",
-                columns: new[] { "ID", "AuthorID", "Description", "ISBN", "Title" },
-                values: new object[] { 1, 1, "Arguably Shakespeare's greatest tragedy", "1472518381", "Hamlet" });
-
-            migrationBuilder.InsertData(
-                table: "BookDetails",
-                columns: new[] { "ID", "AuthorID", "Description", "ISBN", "Title" },
-                values: new object[] { 2, 1, "King Lear is a tragedy written by William Shakespeare. It depicts the gradual descent into madness of the title character, after he disposes of his kingdom by giving bequests to two of his three daughters egged on by their continual flattery, bringing tragic consequences for all.", "9780141012292", "King Lear" });
-
-            migrationBuilder.InsertData(
-                table: "BookDetails",
-                columns: new[] { "ID", "AuthorID", "Description", "ISBN", "Title" },
-                values: new object[] { 3, 2, "An intense drama of love, deception, jealousy and destruction.", "1853260185", "Othello" });
-
             migrationBuilder.CreateIndex(
                 name: "IX_BookCopies_DetailsID",
                 table: "BookCopies",
@@ -161,12 +170,20 @@ namespace Library.Infrastructure.Migrations
                 name: "IX_Loans_MemberID",
                 table: "Loans",
                 column: "MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReturnedLoans_MemberID",
+                table: "ReturnedLoans",
+                column: "MemberID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Loans");
+
+            migrationBuilder.DropTable(
+                name: "ReturnedLoans");
 
             migrationBuilder.DropTable(
                 name: "BookCopies");

@@ -3,6 +3,7 @@ using Library.Domain;
 using Library.MVC.Models.LoanModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Threading.Tasks;
 
 namespace Library.MVC.Controllers
@@ -26,6 +27,7 @@ namespace Library.MVC.Controllers
         {
             var vm = new LoanIndexVm();
             vm.Loans = loanService.GetAllLoans();
+            vm.ReturnedLoans = loanService.GetReturnedLoans();
             return View(vm);
         }
 
@@ -108,42 +110,47 @@ namespace Library.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(LoanReturnVm vm)
         {
-            if (ModelState.IsValid)
+            var loan = loanService.GetLoanById(vm.ID);
+            var date = loanService.ReturnDate();
+            var returnedLoan = new Loan(); // Spara i ny lista av lån
+            returnedLoan.ID = vm.ID;
+            returnedLoan.BookCopy = bookCopyService.GetBookCopyById(vm.BookCopyID);
+            returnedLoan.LoanTime = loan.LoanTime;
+            returnedLoan.ReturnTime = loan.ReturnTime;
+            returnedLoan.BookCopyID = returnedLoan.BookCopy.ID;
+            returnedLoan.MemberID = vm.MemberID;
+            if (returnedLoan.ReturnTime.Date < date)
             {
-                var date = loanService.ReturnDate();
-                // var book = bookService.GetBookById(vm.);
-                var returnedLoan = new Loan(); // Spara i ny lista av lån
-                returnedLoan.ID = vm.ID;
-                returnedLoan.BookCopy = bookCopyService.GetBookCopyById(vm.BookCopyID);
-                returnedLoan.LoanTime = vm.LoanTime;
-                returnedLoan.ReturnTime = vm.ReturnTime;
-                returnedLoan.BookCopyID = returnedLoan.BookCopy.ID;
-                returnedLoan.MemberID = vm.MemberID;
-                if (vm.ReturnTime.Date < date)
-                {
-                    vm.Delayed = true;
+                returnedLoan.Delayed = true;
 
-                    if (vm.Delayed == true)
-                    {
-                        returnedLoan.Fine = loanService.FineIncrease(vm.ReturnTime);
-                    }
-                    else
-                    {
-                        returnedLoan.Fine = vm.Fine;
-                    }
-                }
-                else
+                if (returnedLoan.Delayed == true)
                 {
-                    vm.Delayed = false;
+                    returnedLoan.Fine = loanService.FineIncrease(returnedLoan.ReturnTime);
                 }
-                returnedLoan.Returned = true;
-                returnedLoan.BookCopy.OnLoan = false;
-                returnedLoan.BookCopy.Details.CopiesAvailable += bookService.GetNumberOfAvailableCopies(returnedLoan.BookCopy.Details);
-                bookService.UpdateBookDetails(returnedLoan.BookCopy.Details);
-                loanService.ReturnLoan(returnedLoan);
-                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction("Error", "Home", "");
+            else if (returnedLoan.ReturnTime.Date > date)
+            {
+                returnedLoan.Delayed = false;
+                returnedLoan.Fine = vm.Fine;
+            }
+            returnedLoan.Returned = true;
+            returnedLoan.BookCopy.OnLoan = false;
+            returnedLoan.BookCopy.Details.CopiesAvailable += bookService.GetNumberOfAvailableCopies(returnedLoan.BookCopy.Details);
+            AddReturnedLoan(returnedLoan); //Skickar informationen till en ny lista
+            bookService.UpdateBookDetails(returnedLoan.BookCopy.Details);
+            loanService.ReturnLoan(returnedLoan);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public void AddReturnedLoan(Loan returnedLoan)
+        {
+            var returnLoan = new ReturnedLoans();
+            returnLoan.BookCopyID = returnedLoan.BookCopyID;
+            returnLoan.Delayed = returnedLoan.Delayed;
+            returnLoan.Fine = returnedLoan.Fine;
+            returnLoan.MemberID = returnedLoan.MemberID;
+            returnLoan.Returned = returnedLoan.Returned;
+            loanService.AddReturnedLoan(returnLoan);
         }
 
         //// GET: Loans
