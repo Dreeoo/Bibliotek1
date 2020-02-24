@@ -114,9 +114,10 @@ namespace Library.MVC.Controllers
             }
             if (book.Copies.Count < vm.NumberCopies)
             {
-                for (int i = book.Copies.Count; i < vm.NumberCopies; i++)
+                for (int i = books.Count; i < vm.NumberCopies; i++)
                 {
                     book.Copies.Add(new BookCopy());
+                    editedBook.Copies = book.Copies;
                 }
             }
             bookService.UpdateBookDetails(editedBook);

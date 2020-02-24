@@ -52,7 +52,32 @@
                     </td>
                 </tr>
             }
-            </tbody>
+        </tbody>
+
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Delayed</th>
+                <th>Fine</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.ReturnedLoans)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Delayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fine)
+                </td>
+            </tr>
+        }
+        </tbody>
     </table>
 </body>
 </html>

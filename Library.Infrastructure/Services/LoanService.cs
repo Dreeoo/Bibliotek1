@@ -20,6 +20,13 @@ namespace Library.Infrastructure.Services
             context.Add(newLoan);
             context.SaveChanges();
         }
+
+        public void AddReturnedLoan(ReturnedLoans returnedLoan)
+        {
+            context.Add(returnedLoan);
+            context.SaveChanges();
+        }
+
         public DateTime ReturnDate()
         {
             var date = DateTime.Today;
@@ -47,8 +54,18 @@ namespace Library.Infrastructure.Services
                 .Include(x => x.BookCopy)
                 .ThenInclude(x => x.Details)
                 .OrderBy(x => x.Delayed)
-                .ToList();            
-            }
+                .ToList();
+        }
+        public ICollection<ReturnedLoans> GetReturnedLoans()
+        {
+            return
+                context.ReturnedLoans
+                .Where(x => x.Returned == true)
+                .Include(x => x.Member)
+                .OrderBy(x => x.Member)
+                .ToList();
+        }
+
         public Loan GetLoanById(int id)
         {
             return 
