@@ -200,6 +200,8 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("BookCopyID");
+
                     b.HasIndex("MemberID");
 
                     b.ToTable("ReturnedLoans");
@@ -238,6 +240,12 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
                 {
+                    b.HasOne("Library.Domain.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Library.Domain.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberID")

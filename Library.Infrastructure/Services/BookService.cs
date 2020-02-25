@@ -63,5 +63,15 @@ namespace Library.Infrastructure.Services
         {
             return book.Copies.Where(x => x.OnLoan == false).ToList().Last();
         }
+
+        public IList<BookDetails> GetBooksByAuthor(Author author)
+        {
+            return
+                context.BookDetails.Where(x => x.Author == author)
+                .Include(x => x.Copies)
+                .ThenInclude(x => x.Details)
+                .OrderBy(x => x.Title)
+                .ToList();
+        }
     }
 }
