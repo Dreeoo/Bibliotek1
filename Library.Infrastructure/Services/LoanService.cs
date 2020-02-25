@@ -80,7 +80,11 @@ namespace Library.Infrastructure.Services
         }
         public void ReturnLoan(Loan returnLoan)
         {
-            context.Remove(returnLoan);
+            var loan = GetLoanById(returnLoan.ID);
+            loan.Delayed = returnLoan.Delayed;
+            loan.Fine = returnLoan.Fine;
+            loan.Returned = returnLoan.Returned;
+            context.Remove(loan);
             context.SaveChanges();
         }
         public void UpdateLoan(Loan loan)
