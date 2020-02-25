@@ -37,5 +37,6 @@ namespace Library.Application.Interfaces
 
         BookCopy GetCopyOfBook(BookDetails book);
         int GetNumberOfAvailableCopies(BookDetails book);
+        IList<BookDetails> GetBooksByAuthor(Author author);
     }
 }

@@ -58,29 +58,6 @@ namespace Library.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReturnedLoans",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Delayed = table.Column<bool>(nullable: false),
-                    Fine = table.Column<int>(nullable: false),
-                    Returned = table.Column<bool>(nullable: false),
-                    BookCopyID = table.Column<int>(nullable: false),
-                    MemberID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReturnedLoans", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_ReturnedLoans_Members_MemberID",
-                        column: x => x.MemberID,
-                        principalTable: "Members",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BookCopies",
                 columns: table => new
                 {
@@ -131,6 +108,35 @@ namespace Library.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReturnedLoans",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Delayed = table.Column<bool>(nullable: false),
+                    Fine = table.Column<int>(nullable: false),
+                    Returned = table.Column<bool>(nullable: false),
+                    BookCopyID = table.Column<int>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReturnedLoans", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ReturnedLoans_BookCopies_BookCopyID",
+                        column: x => x.BookCopyID,
+                        principalTable: "BookCopies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReturnedLoans_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Authors",
                 columns: new[] { "ID", "Name" },
@@ -170,6 +176,11 @@ namespace Library.Infrastructure.Migrations
                 name: "IX_Loans_MemberID",
                 table: "Loans",
                 column: "MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReturnedLoans_BookCopyID",
+                table: "ReturnedLoans",
+                column: "BookCopyID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReturnedLoans_MemberID",

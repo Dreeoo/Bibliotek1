@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200224112625_initial")]
+    [Migration("20200225081337_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,6 +202,8 @@ namespace Library.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("BookCopyID");
+
                     b.HasIndex("MemberID");
 
                     b.ToTable("ReturnedLoans");
@@ -240,6 +242,12 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.ReturnedLoans", b =>
                 {
+                    b.HasOne("Library.Domain.BookCopy", "BookCopy")
+                        .WithMany()
+                        .HasForeignKey("BookCopyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Library.Domain.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberID")

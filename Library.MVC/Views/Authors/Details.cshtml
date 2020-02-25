@@ -25,6 +25,31 @@
             </dd>
         </dl>
     </div>
+
+    <h4>Books</h4>
+    @foreach (var item in Model.Books)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(modelitem => item.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelitem => item.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(modelitem => item.Copies)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelitem => item.Copies)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(modelitem => item.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelitem => item.Description)
+            </dd>
+        </dl>
+    }
     <div>
         <a asp-action="Edit" asp-route-id="@Model.ID">Edit author</a> |
         <a asp-action="Index">Back to List</a>

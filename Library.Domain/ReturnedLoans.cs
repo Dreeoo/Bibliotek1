@@ -11,6 +11,7 @@ namespace Library.Domain
         public int Fine { get; set; }
         public bool Returned { get; set; } = true;
         public int BookCopyID { get; set; }
+        public BookCopy BookCopy { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }
     }

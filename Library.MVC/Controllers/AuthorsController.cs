@@ -15,10 +15,12 @@ namespace Library.MVC.Controllers
     public class AuthorsController : Controller
     {
         private IAuthorService authorService;
+        private IBookService bookService;
 
-        public AuthorsController(IAuthorService authorService)
+        public AuthorsController(IAuthorService authorService, IBookService bookService)
         {
             this.authorService = authorService;
+            this.bookService = bookService;
         }
 
         //GET: Authors
@@ -101,6 +103,7 @@ namespace Library.MVC.Controllers
             var vm = new AuthorDetailsVm();
             vm.ID = id;
             vm.Name = author.Name;
+            vm.Books = bookService.GetBooksByAuthor(author);
             return View(vm);
         }
     }
