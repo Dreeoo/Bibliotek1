@@ -12,6 +12,8 @@
     <title>Index</title>
 </head>
 <body>
+    <br />
+    <h4>Current Loans</h4>
     <table class="table">
         <thead>
             <tr>
@@ -53,31 +55,35 @@
                 </tr>
             }
         </tbody>
+        </table>
 
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Delayed</th>
-                <th>Fine</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.ReturnedLoans)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Member.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Delayed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fine)
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+            <br />
+            <h4>Returned Loans</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Delayed</th>
+                        <th>Fine</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ReturnedLoans)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Member.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Delayed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fine)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 </body>
 </html>
