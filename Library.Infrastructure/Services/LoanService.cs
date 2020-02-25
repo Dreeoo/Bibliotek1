@@ -62,6 +62,8 @@ namespace Library.Infrastructure.Services
                 context.ReturnedLoans
                 .Where(x => x.Returned == true)
                 .Include(x => x.Member)
+                .Include(x => x.BookCopy)
+                .ThenInclude(x => x.Details)
                 .OrderBy(x => x.Member)
                 .ToList();
         }
