@@ -10,6 +10,7 @@ namespace Library.MVC.Models.LoanModels
 {
     public class LoanCreateVm
     {
+        [Required]
         public int ID { get; set; }
         [Required]
         public DateTime LoanTime { get; set; } = DateTime.Today.AddDays(-16);

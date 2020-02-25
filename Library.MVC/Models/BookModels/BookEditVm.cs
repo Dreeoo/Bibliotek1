@@ -14,7 +14,7 @@ namespace Library.MVC.Models
         public int ID { get; set; }
         public string ISBN { get; set; }
         [Display(Name = "Titel")]
-        [MaxLength(7)]
+        [MaxLength(50)]
         public string Title { get; set; }
         [Display(Name = "Författare")]
         public SelectList AuthorList { get; set; }

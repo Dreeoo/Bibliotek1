@@ -12,20 +12,16 @@ namespace Library.MVC.Models
         [Required]
         [Display(Name = "ISBN")]
         [DataType(DataType.Text)]
-        /*[RegularExpression(@"^(?:ISBN(?:-1[03])?:?●)?(?=[0-9X]{10}$|
-(?=(?:[0-9]+[-●]){3})[-●0-9X]{13}$|
-97[89][0-9]{10}$|(?=(?:[0-9]+[-●]){4})[-●0-9]{17}$)|
-(?:97[89][-●]?)?[0-9]{1,5}[-●]?[0-9]+[-●]?[0-9]+[-●]?[0-9X]$", ErrorMessage = "Please enter a valid ISBN")]*/
+        [RegularExpression(@"^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$", ErrorMessage = "Please enter a valid ISBN consisting of 10 or 13 digits")]
         public string ISBN { get; set; }
 
         [Required]
         [Display(Name = "Book Title")]
         [DataType(DataType.Text)]
-        [StringLength(50, MinimumLength = 1)]
+        [StringLength(50, ErrorMessage = "Please enter a valid title")]
         public string Title { get; set; }
 
-        [Required]
-        [Display(Name = "Author Name")]
+        [Display(Name = "Author")]
         public SelectList AuthorList { get; set; }
 
         public int AuthorID { get; set; }
@@ -33,7 +29,7 @@ namespace Library.MVC.Models
         [Required]
         [Display(Name = "Book Description")]
         [DataType(DataType.Text)]
-        [StringLength(500, MinimumLength = 4)]
+        [StringLength(500, MinimumLength = 4, ErrorMessage = "Please enter a valid book description")]
         public string Description { get; set; }
 
         [Required]
