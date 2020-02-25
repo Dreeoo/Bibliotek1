@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Library.Application.Interfaces;
 using Library.Domain;
 using Library.MVC.Models;
-using Library.Application.Interfaces;
 using Library.MVC.Models.LoanModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.MVC.Controllers
 {
@@ -109,17 +106,18 @@ namespace Library.MVC.Controllers
                 for (int i = books.Count; i > vm.NumberCopies; i--)
                 {
                     books.RemoveAt(books.Count - 1);
-                    editedBook.Copies = books;
                 }
+                editedBook.Copies = books;
             }
             if (book.Copies.Count < vm.NumberCopies)
             {
                 for (int i = books.Count; i < vm.NumberCopies; i++)
                 {
                     book.Copies.Add(new BookCopy());
-                    editedBook.Copies = book.Copies;
                 }
+                editedBook.Copies = book.Copies;
             }
+
             bookService.UpdateBookDetails(editedBook);
             return RedirectToAction(nameof(Index));
         }
@@ -174,7 +172,7 @@ namespace Library.MVC.Controllers
             vm.ID = id;
             return View(vm);
         }
-        
+
         //POST: Create Loan
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -182,7 +180,7 @@ namespace Library.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newLoan = new Loan(); 
+                var newLoan = new Loan();
                 var book = bookService.GetBookById(vm.ID);
                 var bookCopy = bookService.GetCopyOfBook(book);
                 newLoan.BookCopy = bookCopy;

@@ -43,6 +43,7 @@ namespace Library.Infrastructure.Services
         {
             var editbook = GetBookById(book.ID);
             editbook.Copies = book.Copies;
+            editbook.CopiesAvailable = GetNumberOfAvailableCopies(book);
             context.Update(editbook);
             context.SaveChanges();
         }
