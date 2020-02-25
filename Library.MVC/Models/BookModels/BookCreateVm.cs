@@ -18,7 +18,7 @@ namespace Library.MVC.Models
         [Required]
         [Display(Name = "Book Title")]
         [DataType(DataType.Text)]
-        [StringLength(50, ErrorMessage = "Please enter a valid title")]
+        [StringLength(50)]
         public string Title { get; set; }
 
         [Display(Name = "Author")]

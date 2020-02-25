@@ -12,9 +12,13 @@ namespace Library.MVC.Models
     {
         [Required]
         public int ID { get; set; }
+        [Display(Name = "ISBN")]
+        [DataType(DataType.Text)]
+        [RegularExpression(@"^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$", ErrorMessage = "Please enter a valid ISBN consisting of 10 or 13 digits")]
         public string ISBN { get; set; }
-        [Display(Name = "Titel")]
-        [MaxLength(50)]
+        [Display(Name = "Book Title")]
+        [DataType(DataType.Text)]
+        [StringLength(50)]
         public string Title { get; set; }
         [Display(Name = "Författare")]
         public SelectList AuthorList { get; set; }
